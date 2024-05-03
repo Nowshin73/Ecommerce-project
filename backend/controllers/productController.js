@@ -11,7 +11,7 @@ exports.createProduct = async (req,res,next)=>{
 
 }
 
-// get a product
+// get all product
 exports.getAllProducts =async (req,res)=>{
     const products = await Product.find();
 
@@ -22,6 +22,21 @@ exports.getAllProducts =async (req,res)=>{
         }
     )
 }
+// get product details
+exports.getProductDetails = async (req,res,next)=>{
+    const product = await Product.findById(req.params.id);
+    if(!product){
+        return res.status(500).json({
+            success:false,
+            message:"could not get product detail "
+        })
+    }
+    res.status(200).json({
+        success:true,
+        product
+    })
+}
+
 // update product information
 exports.updateProduct = async (req,res,next)=>{
     let product = await Product.findById(req.params.id);
@@ -53,7 +68,7 @@ exports.deleteProduct = async (req,res,next)=>{
         }
     )
  }
- await product.remove();
+ await product.deleteOne();
  res.status(200).json({
     success:true,
     message: "product successsfully deleted"
