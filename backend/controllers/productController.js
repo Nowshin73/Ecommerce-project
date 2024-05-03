@@ -1,4 +1,5 @@
 const Product = require("../models/productModel");
+const ErrorHandler = require("../utils/errorhandler");
 // create product
 exports.createProduct = async (req,res,next)=>{
     const product = await Product.create(req.body);
@@ -26,10 +27,7 @@ exports.getAllProducts =async (req,res)=>{
 exports.getProductDetails = async (req,res,next)=>{
     const product = await Product.findById(req.params.id);
     if(!product){
-        return res.status(500).json({
-            success:false,
-            message:"could not get product detail "
-        })
+        return next(new ErrorHandler("Product not found", 404));
     }
     res.status(200).json({
         success:true,
