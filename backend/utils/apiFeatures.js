@@ -3,5 +3,16 @@ class ApiFeatures {
         this.query = query;
         this.querystr = querystr;
     }
+    search(){
+        const keyword = this.querystr.keyword
+        ?{
+            name:{
+                $regex:this.querystr.keyword,
+                $options: "i"
+            },
+        }
+        :{};
+        this.query = this.query.find(...keyword);
+    }
 }
 module.exports = ApiFeatures
