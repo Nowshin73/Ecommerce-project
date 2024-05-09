@@ -16,7 +16,9 @@ class ApiFeatures {
         return this;
     }
     filter(){
-        const queryCopy = {...this.querystr}
+        const queryCopy = {...this.querystr};
+        const removeFields = ["keyword","page","limit"];
+        removeFields.forEach((key)=> delete queryCopy[key]);
     }
 }
 module.exports = ApiFeatures
